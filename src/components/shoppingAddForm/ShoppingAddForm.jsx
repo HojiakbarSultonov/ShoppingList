@@ -10,15 +10,15 @@
 
 import React, { Component } from "react";
 
-export default class ShoppingAddForm extends Component {
+class ShoppingAddForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       title: "Buy ",
       number: "",
     };
   }
+
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -30,17 +30,25 @@ export default class ShoppingAddForm extends Component {
       title: this.state.title,
       number: this.state.number,
     };
+
+    if (!data.number.length || !data.title.length) {
+      alert("All fields should be completed");
+    } else {
+      this.props.onAdd(data);
+    }
   };
+
   render() {
-    const { title, number } = this.state;
+    const { number, title } = this.state;
+
     return (
       <div className="form">
         <input
           type="text"
           className="title"
           placeholder="Title..."
-          onChange={this.onChangeTitle}
           name="title"
+          onChange={this.onChange}
           value={title}
         />
         <input
@@ -48,10 +56,13 @@ export default class ShoppingAddForm extends Component {
           className="number"
           placeholder="14"
           name="number"
+          onChange={this.onChange}
           value={number}
         />
-        <button>add</button>
+        <button onClick={this.onAdd}>Add</button>
       </div>
     );
   }
 }
+
+export default ShoppingAddForm;
